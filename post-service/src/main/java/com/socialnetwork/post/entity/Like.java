@@ -1,28 +1,29 @@
-package com.socialnetwork.profile.entity;
+package com.socialnetwork.post.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.socialnetwork.post.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@Entity
+@Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-//@Table(name = "followers")
-public class Follower {
+@Table(name = "likes")
+public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    private Long followerId;
-
-
     private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post postId;
 
 }

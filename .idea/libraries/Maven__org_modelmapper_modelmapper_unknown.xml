@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.modelmapper:modelmapper:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/modelmapper/modelmapper/unknown/modelmapper-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/modelmapper/modelmapper/unknown/modelmapper-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/modelmapper/modelmapper/unknown/modelmapper-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

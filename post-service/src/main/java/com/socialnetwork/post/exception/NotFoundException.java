@@ -1,4 +1,4 @@
-package com.socialnetwork.profile.exception;
+package com.socialnetwork.post.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
