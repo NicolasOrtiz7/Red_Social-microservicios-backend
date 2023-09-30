@@ -1,23 +1,43 @@
 package com.microservicios.chat.controller;
 
-import com.microservicios.chat.entity.MessageEntity;
+import com.microservicios.chat.entity.ChatEntity;
+import com.microservicios.chat.entity.UserChat;
+import com.microservicios.chat.service.UserChatService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController // hasta implementar websockets
+@RequestMapping("/chats")
 @CrossOrigin(origins = "http://localhost:4200")
-// se usaría @RequestMapping,
-// pero la clase WebSocketConfig hace que los mensajes se envíen a localhost:8080/app/***
 public class ChatController {
 
-    @MessageMapping("/chat") // Reemplaza a @RequestMapping o @PostMapping, etc.
-    @SendTo("/topic/messages") // Envía el mensaje a los usuarios suscritos a /topic/messages
-    public MessageEntity sendMessage(MessageEntity message){
-        // // Procesa y guarda el mensaje en la base de datos si es necesario
 
-        return message;
+    @Autowired
+    private UserChatService chatService;
+
+
+    @GetMapping
+    public List<UserChat> getAllChats(){
+        return chatService.getAllChats();
     }
+
+    @GetMapping("/{chat_id}")
+    public List<UserChat> findByChatId(@PathVariable Long chat_id){
+        return chatService.findByChatId(chat_id);
+    }
+
+    @PostMapping("/{chat_id}")
+    public List<UserChat> sendMessage(@PathVariable Long chat_id, @RequestBody UserChat message){
+        message.setChatId(chat_id);
+        return chatService.sendMessage(message);
+    }
+
 
 }

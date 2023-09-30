@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registra el endpoint WebSocket.
         // SockJS permite que la comunicación funcione en navegadores que no son compatibles con WebSocket puro
-        registry.addEndpoint("/websocket-endpoint")
+        registry.addEndpoint("/chat")
                 .setAllowedOrigins("http://localhost:4200")
                 .withSockJS();
     }
