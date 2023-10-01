@@ -2,6 +2,11 @@ package com.socialnetwork.profile.controller;
 
 import com.socialnetwork.profile.dto.UserDTO;
 import com.socialnetwork.profile.entity.User;
+import com.socialnetwork.profile.feign.ChatClient;
+import com.socialnetwork.profile.feign.PostClient;
+import com.socialnetwork.profile.model.Chat;
+import com.socialnetwork.profile.model.Message;
+import com.socialnetwork.profile.model.Post;
 import com.socialnetwork.profile.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,12 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private PostClient postClient;
+
+    @Autowired
+    private ChatClient chatClient;
 
 
     @GetMapping
@@ -70,7 +81,32 @@ public class UserController {
         userService.unfollowUser(user_id, follower_id);
     }
 
-    // ------------------------
+    // ------------ Posts ------------
 
+    @GetMapping("/posts/all")
+    public List<Post> getAllPost(){
+        return postClient.findAllPosts();
+    }
 
+    @GetMapping("/posts/{userId}")
+    private List<Post> findByUserId(@PathVariable Long userId){
+        return postClient.findPostsByUserId(userId);
+    }
+
+    @DeleteMapping("/posts/delete/{postId}")
+    private void deletePost(@PathVariable Long postId){
+        postClient.deletePost(postId);
+    }
+
+    // ------------ Chats ------------
+
+    @GetMapping("/chat/{chatId}/messages")
+    private List<Message> findMessagesByChatId(@PathVariable Long chatId){
+        return chatClient.findMessagesByChatId(chatId);
+    }
+
+    @GetMapping("/{userId}/chats")
+    public List<Chat> findChatsByUserId(@PathVariable Long userId){
+        return chatClient.findChatsByUserId(userId);
+    }
 }

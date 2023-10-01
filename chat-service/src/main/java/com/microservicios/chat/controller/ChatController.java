@@ -2,6 +2,7 @@ package com.microservicios.chat.controller;
 
 import com.microservicios.chat.entity.ChatEntity;
 import com.microservicios.chat.entity.UserChat;
+import com.microservicios.chat.service.ChatService;
 import com.microservicios.chat.service.UserChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -20,23 +21,34 @@ public class ChatController {
 
 
     @Autowired
-    private UserChatService chatService;
+    private UserChatService userChatService;
+
+    @Autowired
+    private ChatService chatService;
 
 
     @GetMapping
     public List<UserChat> getAllChats(){
-        return chatService.getAllChats();
+        return userChatService.getAllChats();
     }
 
-    @GetMapping("/{chat_id}")
-    public List<UserChat> findByChatId(@PathVariable Long chat_id){
-        return chatService.findByChatId(chat_id);
+    @GetMapping("/{chatId}")
+    public List<UserChat> findByChatId(@PathVariable Long chatId){
+        return userChatService.findByChatId(chatId);
     }
 
-    @PostMapping("/{chat_id}")
-    public List<UserChat> sendMessage(@PathVariable Long chat_id, @RequestBody UserChat message){
-        message.setChatId(chat_id);
-        return chatService.sendMessage(message);
+    @PostMapping("/{chatId}")
+    public List<UserChat> sendMessage(@PathVariable Long chatId, @RequestBody UserChat message){
+        message.setChatId(chatId);
+        return userChatService.sendMessage(message);
+    }
+
+    // -----------------------------------------
+
+    // Busca todos los chats de un usuario
+    @GetMapping("/user/{userId}")
+    public List<ChatEntity> findChatsByUserId(@PathVariable Long userId){
+        return chatService.findChatsByUserId(userId);
     }
 
 

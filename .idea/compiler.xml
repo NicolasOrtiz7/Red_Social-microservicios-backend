@@ -15,7 +15,7 @@
     <bytecodeTargetLevel>
       <module name="chat-service" target="17" />
       <module name="follower-service" target="17" />
-      <module name="post-service" target="1.5" />
+      <module name="post-service" target="17" />
       <module name="profile-service" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -23,7 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="chat-service" options="-parameters" />
       <module name="follower-service" options="-parameters" />
-      <module name="post-service" options="" />
+      <module name="post-service" options="-parameters" />
       <module name="profile-service" options="-parameters" />
     </option>
   </component>

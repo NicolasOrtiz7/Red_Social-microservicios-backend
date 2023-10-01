@@ -1,6 +1,5 @@
 package com.microservicios.chat.repository;
 
-import com.microservicios.chat.entity.ChatEntity;
 import com.microservicios.chat.entity.UserChat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

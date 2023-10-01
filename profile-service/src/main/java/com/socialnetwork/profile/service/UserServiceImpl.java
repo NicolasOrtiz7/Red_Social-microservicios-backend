@@ -3,11 +3,18 @@ package com.socialnetwork.profile.service;
 import com.socialnetwork.profile.dto.UserDTO;
 import com.socialnetwork.profile.entity.User;
 import com.socialnetwork.profile.exception.NotFoundException;
+import com.socialnetwork.profile.feign.ChatClient;
+import com.socialnetwork.profile.feign.PostClient;
+import com.socialnetwork.profile.model.Chat;
+import com.socialnetwork.profile.model.Message;
+import com.socialnetwork.profile.model.Post;
 import com.socialnetwork.profile.repository.IUserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +22,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService, PostClient, ChatClient {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private PostClient postClient;
+
+    @Autowired
+    private ChatClient chatClient;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -117,6 +130,32 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
-    // ------------------------
+    // ------------ Post Feign Client ------------
 
+    public List<Post> findAllPosts(){
+        return postClient.findAllPosts();
+    }
+
+    @Override
+    public List<Post> findPostsByUserId(Long id) {
+        return postClient.findPostsByUserId(id);
+    }
+
+    @Override
+    @DeleteMapping("/delete/{post_id}")
+    public void deletePost(@PathVariable Long post_id){
+        postClient.deletePost(post_id);
+    }
+
+    // ------------ Chat Feign Client ------------
+
+    @Override
+    public List<Message> findMessagesByChatId(Long chatId) {
+        return chatClient.findMessagesByChatId(chatId);
+    }
+
+    @Override
+    public List<Chat> findChatsByUserId(Long userId) {
+        return chatClient.findChatsByUserId(userId);
+    }
 }

@@ -1,6 +1,6 @@
 package com.socialnetwork.post.entity;
 
-import com.socialnetwork.post.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,9 +35,11 @@ public class Post {
     @Column(name = "created_at")
     private Date createdAt = new Date();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 

@@ -29,9 +29,9 @@ public class PostController {
         return postService.savePost(post);
     }
 
-    @DeleteMapping("/delete/{post_id}")
-    private void deletePost(@PathVariable Long post_id){
-        postService.deletePost(post_id);
+    @DeleteMapping("/delete/{postId}")
+    private void deletePost(@PathVariable Long postId){
+        postService.deletePost(postId);
     }
 
 }
