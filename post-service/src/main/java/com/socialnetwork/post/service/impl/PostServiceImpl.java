@@ -1,18 +1,24 @@
-package com.socialnetwork.post.service;
+package com.socialnetwork.post.service.impl;
 
 import com.socialnetwork.post.entity.Post;
 import com.socialnetwork.post.exception.NotFoundException;
+import com.socialnetwork.post.feign.UserClient;
+import com.socialnetwork.post.model.User;
 import com.socialnetwork.post.repository.IPostRepository;
+import com.socialnetwork.post.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PostServiceImpl implements IPostService{
+public class PostServiceImpl implements IPostService, UserClient {
 
     @Autowired
     private IPostRepository postRepository;
+
+    @Autowired
+    private UserClient userClient;
 
     @Override
     public List<Post> findAll() {
@@ -20,8 +26,8 @@ public class PostServiceImpl implements IPostService{
     }
 
     @Override
-    public List<Post> findPostById(Long id) {
-        return null;
+    public Post findPostById(Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new NotFoundException("No existe ese Post"));
     }
 
     @Override
@@ -43,4 +49,15 @@ public class PostServiceImpl implements IPostService{
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
+
+
+
+    // ----------- Users Feign Client -----------------
+
+    @Override
+    public User findUserById(Long id) {
+        return null;
+    }
+
+
 }

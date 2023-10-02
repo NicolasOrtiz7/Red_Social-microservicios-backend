@@ -22,13 +22,14 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post postId;
+    private Post post;
 
     @NotNull @NotBlank
     @Size(max = 255)
@@ -37,5 +38,9 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt = new Date();
+
+
+    @Transient
+    private User userOwner;
 
 }

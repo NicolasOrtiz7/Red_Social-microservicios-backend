@@ -2,7 +2,6 @@ package com.socialnetwork.post.entity;
 
 import com.socialnetwork.post.model.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +17,17 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "like_id")
     private Long id;
 
     private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post postId;
+    private Post post;
+
+    // Solo se usa para devolver objetos JSON
+    @Transient
+    private User userOwner;
 
 }
