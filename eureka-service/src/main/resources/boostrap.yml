@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: eureka-service
+  cloud:
+    config:
+      enable: true
+      uri: http://localhost:8081
