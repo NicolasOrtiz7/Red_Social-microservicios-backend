@@ -11,7 +11,7 @@ public interface IPostService {
 
     Post findPostById(Long id);
 
-    List<Post> findPostByUserId(Long userId);
+    List<Post> findPostsByUserId(Long userId);
 
     Post savePost(Post post);
 

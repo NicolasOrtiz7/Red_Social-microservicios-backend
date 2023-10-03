@@ -19,22 +19,20 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
-
     @Autowired
     private PostClient postClient;
-
     @Autowired
     private ChatClient chatClient;
 
 
     @GetMapping
-    public List<User> findAll(){
+    public List<UserDTO> findAll(){
         return userService.findAll();
     }
 
     // ------------ CRUD User ------------
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // Ver por qué no devuelve la lista de followers. Igual sería una lista infinita (arreglar con dto).
     public User findUserById(@PathVariable Long id){
         return userService.findUserById(id);
     }
@@ -89,22 +87,24 @@ public class UserController {
     }
 
     @GetMapping("/posts/{userId}")
-    private List<Post> findByUserId(@PathVariable Long userId){
+    public List<Post> findByUserId(@PathVariable Long userId){
         return postClient.findPostsByUserId(userId);
     }
 
     @DeleteMapping("/posts/delete/{postId}")
-    private void deletePost(@PathVariable Long postId){
+    public void deletePost(@PathVariable Long postId){
         postClient.deletePost(postId);
     }
 
     // ------------ Chats ------------
 
+    // Obtiene los mensajes de un chat
     @GetMapping("/chat/{chatId}/messages")
-    private List<Message> findMessagesByChatId(@PathVariable Long chatId){
+    public List<Message> findMessagesByChatId(@PathVariable Long chatId){
         return chatClient.findMessagesByChatId(chatId);
     }
 
+    // Obtiene los chats de un usuario
     @GetMapping("/{userId}/chats")
     public List<Chat> findChatsByUserId(@PathVariable Long userId){
         return chatClient.findChatsByUserId(userId);

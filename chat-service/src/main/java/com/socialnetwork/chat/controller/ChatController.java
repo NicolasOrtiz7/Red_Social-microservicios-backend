@@ -1,15 +1,10 @@
-package com.microservicios.chat.controller;
+package com.socialnetwork.chat.controller;
 
-import com.microservicios.chat.entity.ChatEntity;
-import com.microservicios.chat.entity.UserChat;
-import com.microservicios.chat.service.ChatService;
-import com.microservicios.chat.service.UserChatService;
+import com.socialnetwork.chat.entity.ChatEntity;
+import com.socialnetwork.chat.entity.UserChat;
+import com.socialnetwork.chat.service.IChatService;
+import com.socialnetwork.chat.service.IUserChatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,19 +14,19 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ChatController {
 
-
-    @Autowired
-    private UserChatService userChatService;
-
-    @Autowired
-    private ChatService chatService;
+    @Autowired // Estos son los mensajes
+    private IUserChatService userChatService;
+    @Autowired // Este es el chat
+    private IChatService chatService;
 
 
-    @GetMapping
-    public List<UserChat> getAllChats(){
-        return userChatService.getAllChats();
-    }
+// No usar este método. Devuelve todos los mensajes de todos los chats de todos los usuarios
+//    @GetMapping
+//    public List<UserChat> getAllChatMessages(){
+//        return userChatService.getAllChats();
+//    }
 
+    // Obtiene todos los mensajes de un chat
     @GetMapping("/{chatId}")
     public List<UserChat> findByChatId(@PathVariable Long chatId){
         return userChatService.findByChatId(chatId);
@@ -49,6 +44,12 @@ public class ChatController {
     @GetMapping("/user/{userId}")
     public List<ChatEntity> findChatsByUserId(@PathVariable Long userId){
         return chatService.findChatsByUserId(userId);
+    }
+
+    // Busca los participantes de un chat
+    @GetMapping("/chat/{chatId}")
+    public ChatEntity findUsersInChatByChatId(@PathVariable Long chatId){
+        return chatService.findById(chatId);
     }
 
 

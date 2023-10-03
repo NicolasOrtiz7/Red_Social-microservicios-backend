@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    List<User> findAll();
+    List<UserDTO> findAll();
 
     User findUserById(Long id);
 

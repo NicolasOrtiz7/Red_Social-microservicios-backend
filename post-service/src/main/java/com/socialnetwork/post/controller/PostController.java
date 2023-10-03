@@ -29,12 +29,12 @@ public class PostController {
     }
 
     @GetMapping("/user/{id}") // Busca todos los posts de un usuario
-    public List<Post> findByUserId(@PathVariable Long id){
-        return postService.findPostByUserId(id);
+    public List<Post> findPostsByUserId(@PathVariable Long id){
+        return postService.findPostsByUserId(id);
     }
 
     @GetMapping("/post/{postId}")
-    public Post findPostById(@PathVariable Long postId){
+    public Post findPostByPostId(@PathVariable Long postId){
         return postService.findPostById(postId);
     }
 

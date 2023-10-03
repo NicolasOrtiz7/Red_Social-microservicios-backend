@@ -38,8 +38,12 @@ public class UserServiceImpl implements IUserService, PostClient, ChatClient {
 
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+
+        List<User> userList = userRepository.findAll();
+        return userList.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

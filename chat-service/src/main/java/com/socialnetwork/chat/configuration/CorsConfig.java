@@ -1,4 +1,4 @@
-package com.microservicios.chat.configuration;
+package com.socialnetwork.chat.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

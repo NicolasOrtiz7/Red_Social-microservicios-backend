@@ -12,17 +12,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PostServiceImpl implements IPostService, UserClient {
+public class PostServiceImpl implements IPostService {
 
     @Autowired
     private IPostRepository postRepository;
-
     @Autowired
     private UserClient userClient;
 
+
     @Override
     public List<Post> findAll() {
-        return postRepository.findAll();
+
+        List<Post> postsList = postRepository.findAll();
+
+        for (Post post : postsList){
+            User user = userClient.findUserById(post.getUserId());
+            post.setUserOwner(user);
+        }
+
+        return postsList;
     }
 
     @Override
@@ -31,8 +39,16 @@ public class PostServiceImpl implements IPostService, UserClient {
     }
 
     @Override
-    public List<Post> findPostByUserId(Long userId) {
-        return postRepository.findByUserId(userId);
+    public List<Post> findPostsByUserId(Long userId) {
+
+        List<Post> postsList = postRepository.findByUserId(userId);
+
+        for (Post post : postsList){
+            User user = userClient.findUserById(post.getUserId());
+            post.setUserOwner(user);
+        }
+
+        return postsList;
     }
 
     @Override
@@ -49,15 +65,5 @@ public class PostServiceImpl implements IPostService, UserClient {
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
-
-
-
-    // ----------- Users Feign Client -----------------
-
-    @Override
-    public User findUserById(Long id) {
-        return null;
-    }
-
 
 }

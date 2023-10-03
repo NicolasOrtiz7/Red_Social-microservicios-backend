@@ -1,5 +1,6 @@
-package com.microservicios.chat.entity;
+package com.socialnetwork.chat.entity;
 
+import com.socialnetwork.chat.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,12 @@ import java.util.Date;
 @Table(name = "user_chats")
 public class UserChat {
 
-    // Esta es la tabla donde se guardan los mensajes
+    // Esta entidad debería llamarse Messages. Acá se guardan los mensajes. Después cambiar.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    @Column(name = "message_id")
+    private Long id;
 
     private String content;
 
@@ -28,5 +30,8 @@ public class UserChat {
     private Long chatId;
 
     private Long senderUserId;
+
+    @Transient
+    private User senderUser;
 
 }
