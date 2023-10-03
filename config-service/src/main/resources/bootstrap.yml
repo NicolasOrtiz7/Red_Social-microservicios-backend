@@ -8,5 +8,7 @@ spring:
         git:
           uri: https://github.com/NicolasOrtiz7/ms-social-network
           searchPaths: config-data
+          #default-label: la rama en la que busca la carpeta
+          #defaultLabel:
   application:
     name: config-service
