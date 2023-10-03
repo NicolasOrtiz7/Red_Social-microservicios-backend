@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/profile-service/pom.xml" />
         <option value="$PROJECT_DIR$/chat-service/pom.xml" />
         <option value="$PROJECT_DIR$/follower-service/pom.xml" />
+        <option value="$PROJECT_DIR$/config-service/pom.xml" />
       </list>
     </option>
   </component>
