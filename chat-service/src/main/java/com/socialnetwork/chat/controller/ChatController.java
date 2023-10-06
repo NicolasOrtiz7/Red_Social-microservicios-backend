@@ -4,7 +4,10 @@ import com.socialnetwork.chat.entity.ChatEntity;
 import com.socialnetwork.chat.entity.UserChat;
 import com.socialnetwork.chat.service.IChatService;
 import com.socialnetwork.chat.service.IUserChatService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,16 +44,23 @@ public class ChatController {
     // -----------------------------------------
 
     // Busca todos los chats de un usuario
+    @CircuitBreaker(name = "profileCB", fallbackMethod = "fallbackUsers")
     @GetMapping("/user/{userId}")
     public List<ChatEntity> findChatsByUserId(@PathVariable Long userId){
         return chatService.findChatsByUserId(userId);
     }
 
     // Busca los participantes de un chat
+    @CircuitBreaker(name = "profileCB", fallbackMethod = "fallbackUsers")
     @GetMapping("/chat/{chatId}")
     public ChatEntity findUsersInChatByChatId(@PathVariable Long chatId){
         return chatService.findById(chatId);
     }
 
+
+    // Fallback Methods
+    public ResponseEntity<String> fallbackUsers(RuntimeException e){
+        return new ResponseEntity<>("El servicio está deshabilitado", HttpStatus.OK);
+    }
 
 }

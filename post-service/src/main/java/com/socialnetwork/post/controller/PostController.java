@@ -6,7 +6,10 @@ import com.socialnetwork.post.entity.Post;
 import com.socialnetwork.post.service.ICommentService;
 import com.socialnetwork.post.service.ILikeService;
 import com.socialnetwork.post.service.IPostService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +27,13 @@ public class PostController {
 
 
     @GetMapping
+    @CircuitBreaker(name = "profileCB", fallbackMethod = "fallbackUsers")
     public List<Post> findAll(){
         return postService.findAll();
     }
 
     @GetMapping("/user/{id}") // Busca todos los posts de un usuario
+    @CircuitBreaker(name = "profileCB", fallbackMethod = "fallbackUsers")
     public List<Post> findPostsByUserId(@PathVariable Long id){
         return postService.findPostsByUserId(id);
     }
@@ -59,6 +64,11 @@ public class PostController {
     @GetMapping("/comments/{postId}")
     public List<Comment> findCommentsByPostId(@PathVariable Long postId){
         return commentService.findByPostId(postId);
+    }
+
+    // -------------------------------------------------
+    public ResponseEntity<String> fallbackUsers(RuntimeException e){
+        return new ResponseEntity<>("El servicio está deshabilitado", HttpStatus.OK);
     }
 
 }
