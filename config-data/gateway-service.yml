@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: profile-service # id unico para la ruta
+          uri: lb://profile-service # lb:// utiliza el equilibrador de carga de Ribbon junto con eureka. redirige las solicitudes a este servicio
+          predicates:
+            - Path=/users/** # cuando se entra a este path, se redirige al microservicio correspondiente
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path=/posts/**
+        - id: chat-service
+          uri: lb://chat-service
+          predicates:
+            - Path=/chats/**
