@@ -50,4 +50,16 @@ public class ChatServiceImpl implements IChatService {
 
         return chat;
     }
+
+    @Override
+    public ChatEntity findChatByUserIds(Long user1, Long user2) {
+        return chatRepository.findChatByUserIds(user1, user2);
+    }
+
+    @Override
+    public ChatEntity createChat(ChatEntity chat) {
+        return chatRepository.save(chat);
+    }
+
+
 }

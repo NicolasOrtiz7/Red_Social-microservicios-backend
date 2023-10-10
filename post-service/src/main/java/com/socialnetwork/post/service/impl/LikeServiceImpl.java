@@ -44,4 +44,16 @@ public class LikeServiceImpl implements ILikeService {
         return likesList;
     }
 
+    @Override
+    public void saveLike(Long postId, Long userId) {
+
+        Like like = new Like();
+        Post post = postRepository.findById(postId).orElseThrow(()-> new NotFoundException("No existe el post"));
+
+        like.setPost(post);
+        like.setUserId(userId);
+
+        likeRepository.save(like);
+    }
+
 }

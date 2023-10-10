@@ -10,4 +10,8 @@ public interface IChatService {
 
     ChatEntity findById(Long chatId);
 
+    ChatEntity findChatByUserIds(Long user1, Long user2);
+
+    ChatEntity createChat(ChatEntity chat);
+
 }

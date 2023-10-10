@@ -22,15 +22,15 @@ public class PostController {
     @Autowired
     private ICommentService commentService;
 
-
+// ------------- CRUD POST ----------------
     @GetMapping
     public List<Post> findAll(){
         return postService.findAll();
     }
 
-    @GetMapping("/user/{id}") // Busca todos los posts de un usuario
-    public List<Post> findPostsByUserId(@PathVariable Long id){
-        return postService.findPostsByUserId(id);
+    @GetMapping("/user/{userId}") // Busca todos los posts de un usuario
+    public List<Post> findPostsByUserId(@PathVariable Long userId){
+        return postService.findPostsByUserId(userId);
     }
 
     @GetMapping("/post/{postId}")
@@ -50,15 +50,29 @@ public class PostController {
     }
 
 
-    // -------------------------------------------------
-    @GetMapping("/likes/{postId}")
+    // ------------- LIKES ----------------
+    @GetMapping("/post/{postId}/likes")
     public List<Like> findLikesByPostId(@PathVariable Long postId){
         return likeService.findByPostId(postId);
     }
 
-    @GetMapping("/comments/{postId}")
+//    @PostMapping("/post/{postId}/{userId}")
+//    public void sendLike(@PathVariable Long postId, @PathVariable Long userId){
+//        likeService.saveLike(postId, userId);
+//    }
+
+
+    // ------------- COMMENTS ----------------
+    @GetMapping("/post/{postId}/comments")
     public List<Comment> findCommentsByPostId(@PathVariable Long postId){
         return commentService.findByPostId(postId);
     }
+
+//    @PostMapping("/post/{postId}/{userId}")
+//    public void sendComments(@PathVariable Long postId, @PathVariable Long userId, @RequestBody Comment comment){
+//        commentService.saveComment(comment);
+//    }
+
+
 
 }

@@ -34,8 +34,14 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public Post findPostById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new NotFoundException("No existe ese Post"));
+    public Post findPostById(Long postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException("No existe ese Post"));
+        User user = userClient.findUserById(post.getUserId());
+
+        post.setUserOwner(user);
+
+        return post;
     }
 
     @Override
@@ -62,8 +68,8 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
     }
 
 }

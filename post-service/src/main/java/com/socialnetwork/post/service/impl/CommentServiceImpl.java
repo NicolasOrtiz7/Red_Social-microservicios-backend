@@ -41,4 +41,11 @@ public class CommentServiceImpl implements ICommentService {
 
         return commentsList;
     }
+
+    @Override
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+
 }

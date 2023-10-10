@@ -17,6 +17,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
+    /*
+    * Los métodos que conectan con los servicios de Post y Chat son innecesarios, no los utilizo en
+    * ningún momento por ahora.
+    * */
+
     @Autowired
     private IUserService userService;
     @Autowired

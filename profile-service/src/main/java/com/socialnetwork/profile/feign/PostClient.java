@@ -14,7 +14,7 @@ public interface PostClient {
     @GetMapping
     List<Post> findAllPosts();
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{userId}")
     List<Post> findPostsByUserId(@PathVariable Long id);
 
     @DeleteMapping("/delete/{postId}")

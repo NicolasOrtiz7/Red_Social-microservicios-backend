@@ -1,6 +1,5 @@
 package com.socialnetwork.post.service;
 
-import com.socialnetwork.post.entity.Like;
 import com.socialnetwork.post.entity.Post;
 
 import java.util.List;
@@ -9,7 +8,7 @@ public interface IPostService {
 
     List<Post> findAll();
 
-    Post findPostById(Long id);
+    Post findPostById(Long postId);
 
     List<Post> findPostsByUserId(Long userId);
 
@@ -17,6 +16,6 @@ public interface IPostService {
 
     Post updatePost(Post post);
 
-    void deletePost(Long id);
+    void deletePost(Long postId);
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "chat-service", url = "http://localhost:8001/chats")
 public interface ChatClient {
 
-    @GetMapping("/{chatId}")
+    @GetMapping("/chat/{chatId}")
     List<Message> findMessagesByChatId(@PathVariable Long chatId);
 
     @GetMapping("/user/{userId}")

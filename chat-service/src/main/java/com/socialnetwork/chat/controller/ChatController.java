@@ -27,12 +27,13 @@ public class ChatController {
 //    }
 
     // Obtiene todos los mensajes de un chat
-    @GetMapping("/{chatId}")
+    @GetMapping("/chat/{chatId}")
     public List<UserChat> findByChatId(@PathVariable Long chatId){
         return userChatService.findByChatId(chatId);
     }
 
-    @PostMapping("/{chatId}")
+
+    @PostMapping("/chat/{chatId}")
     public List<UserChat> sendMessage(@PathVariable Long chatId, @RequestBody UserChat message){
         message.setChatId(chatId);
         return userChatService.sendMessage(message);
@@ -46,10 +47,32 @@ public class ChatController {
         return chatService.findChatsByUserId(userId);
     }
 
+    @GetMapping("/chat/search/{user1Id}/{user2Id}")
+    public ChatEntity findChatByUserIds(@PathVariable Long user1Id, @PathVariable Long user2Id){
+        ChatEntity chatExists = chatService.findChatByUserIds(user1Id, user2Id);
+
+        // Busca si existe un chat entre ambos usuarios. Si no existe, lo crea.
+        if (chatExists == null){
+            ChatEntity newChat = ChatEntity.builder()
+                    .senderUserId(user1Id)
+                    .receiverUserId(user2Id)
+                    .build();
+
+            return chatService.createChat(newChat);
+        }
+        else return chatExists;
+
+    }
+
     // Busca los participantes de un chat
-    @GetMapping("/chat/{chatId}")
+    @GetMapping("/chat/{chatId}/participants")
     public ChatEntity findUsersInChatByChatId(@PathVariable Long chatId){
         return chatService.findById(chatId);
+    }
+
+    @PostMapping("/chat/create")
+    public ChatEntity createNewChat(ChatEntity chat){
+        return chatService.createChat(chat);
     }
 
 
