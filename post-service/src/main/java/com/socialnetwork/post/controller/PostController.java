@@ -69,10 +69,14 @@ public class PostController {
         return commentService.findByPostId(postId);
     }
 
-//    @PostMapping("/post/{postId}/{userId}")
-//    public void sendComments(@PathVariable Long postId, @PathVariable Long userId, @RequestBody Comment comment){
-//        commentService.saveComment(comment);
-//    }
+    @PostMapping("/post/{postId}/comment")
+    public void sendComments(@PathVariable Long postId, @RequestBody Comment comment){
+        System.out.println("ENTRAAA");
+        Post post = new Post();
+        post.setId(postId);
+        comment.setPost(post);
+        commentService.saveComment(comment);
+    }
 
 
 

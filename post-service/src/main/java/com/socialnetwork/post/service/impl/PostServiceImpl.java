@@ -23,7 +23,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public List<Post> findAll() {
 
-        List<Post> postsList = postRepository.findAll();
+        List<Post> postsList = postRepository.findAllByOrderByIdDesc();
 
         for (Post post : postsList){
             User user = userClient.findUserById(post.getUserId());
