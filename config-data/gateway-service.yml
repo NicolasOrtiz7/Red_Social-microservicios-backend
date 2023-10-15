@@ -10,6 +10,13 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
       discovery:
         locator:
           enabled: true
@@ -22,14 +29,6 @@ spring:
           uri: lb://post-service
           predicates:
             - Path=/posts/**
-          metadata:
-            cors:
-              allowedOrigins: '*'
-              allowedMethods:
-                - GET
-                - POST
-            allowedHeaders: '*'
-            maxAge: 30
         - id: chat-service
           uri: lb://chat-service
           predicates:
