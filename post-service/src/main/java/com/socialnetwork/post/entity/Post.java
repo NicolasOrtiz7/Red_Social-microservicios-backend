@@ -31,7 +31,7 @@ public class Post {
     @Size(max = 255)
     private String description;
 
-    private String image = "no-image.png";
+    private String image;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")

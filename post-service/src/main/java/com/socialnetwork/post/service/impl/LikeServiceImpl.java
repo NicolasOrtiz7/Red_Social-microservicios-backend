@@ -52,7 +52,7 @@ public class LikeServiceImpl implements ILikeService {
 
         if (likeExists.isEmpty()) likeRepository.save(like);
         // else
-        likeRepository.deleteById(likeExists.get().getId());
+        else likeRepository.deleteById(likeExists.get().getId());
 
     }
 
