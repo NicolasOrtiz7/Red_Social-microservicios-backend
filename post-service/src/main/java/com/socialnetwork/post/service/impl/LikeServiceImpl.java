@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LikeServiceImpl implements ILikeService {
@@ -45,15 +46,14 @@ public class LikeServiceImpl implements ILikeService {
     }
 
     @Override
-    public void saveLike(Long postId, Long userId) {
+    public void saveLike(Long postId, Like like) {
 
-        Like like = new Like();
-        Post post = postRepository.findById(postId).orElseThrow(()-> new NotFoundException("No existe el post"));
+        Optional<Like> likeExists = likeRepository.findByUserIdAndPostId(like.getUserId(), postId);
 
-        like.setPost(post);
-        like.setUserId(userId);
+        if (likeExists.isEmpty()) likeRepository.save(like);
+        // else
+        likeRepository.deleteById(likeExists.get().getId());
 
-        likeRepository.save(like);
     }
 
 }

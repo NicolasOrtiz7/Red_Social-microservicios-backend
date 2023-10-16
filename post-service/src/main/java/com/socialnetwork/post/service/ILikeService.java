@@ -8,6 +8,6 @@ public interface ILikeService {
 
     List<Like> findByPostId(Long postId);
 
-    void saveLike(Long postId, Long userId);
+    void saveLike(Long postId, Like like);
 
 }

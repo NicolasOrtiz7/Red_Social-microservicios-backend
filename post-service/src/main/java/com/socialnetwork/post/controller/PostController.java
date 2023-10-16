@@ -57,10 +57,13 @@ public class PostController {
         return likeService.findByPostId(postId);
     }
 
-//    @PostMapping("/post/{postId}/{userId}")
-//    public void sendLike(@PathVariable Long postId, @PathVariable Long userId){
-//        likeService.saveLike(postId, userId);
-//    }
+    @PostMapping("/post/{postId}/like")
+    public void sendLike(@PathVariable Long postId, @RequestBody Like like){
+        Post post = new Post();
+        post.setId(postId);
+        like.setPost(post);
+        likeService.saveLike(postId, like);
+    }
 
 
     // ------------- COMMENTS ----------------
@@ -71,7 +74,6 @@ public class PostController {
 
     @PostMapping("/post/{postId}/comment")
     public void sendComments(@PathVariable Long postId, @RequestBody Comment comment){
-        System.out.println("ENTRAAA");
         Post post = new Post();
         post.setId(postId);
         comment.setPost(post);
