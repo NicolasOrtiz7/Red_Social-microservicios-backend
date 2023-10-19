@@ -53,7 +53,13 @@ public class ChatServiceImpl implements IChatService {
 
     @Override
     public ChatEntity findChatByUserIds(Long user1, Long user2) {
-        return chatRepository.findChatByUserIds(user1, user2);
+
+        ChatEntity chat = chatRepository.findChatByUserIds(user1, user2);
+
+        chat.setSenderUser(userClient.findUserById(chat.getSenderUserId()));
+        chat.setReceiverUser(userClient.findUserById(chat.getReceiverUserId()));
+
+        return chat;
     }
 
     @Override
