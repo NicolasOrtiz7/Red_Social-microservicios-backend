@@ -43,7 +43,10 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void saveComment(Comment comment) {
+    public void saveComment(Long postId, Comment comment) {
+        Post post = new Post();
+        post.setId(postId);
+        comment.setPost(post);
         commentRepository.save(comment);
     }
 

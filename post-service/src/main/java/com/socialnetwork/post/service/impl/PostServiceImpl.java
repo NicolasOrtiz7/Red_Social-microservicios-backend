@@ -68,8 +68,10 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public void deletePost(Long postId) {
+    public Post deletePost(Long postId) {
+        Post deletedPost = findPostById(postId);
         postRepository.deleteById(postId);
+        return deletedPost;
     }
 
 }

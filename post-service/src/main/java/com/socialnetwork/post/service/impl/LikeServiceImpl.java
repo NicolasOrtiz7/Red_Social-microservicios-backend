@@ -47,11 +47,16 @@ public class LikeServiceImpl implements ILikeService {
 
     @Override
     public void saveLike(Long postId, Like like) {
+        Post postExists = postRepository.findById(postId)
+                .orElseThrow(() -> new NotFoundException("El post fue eliminado o no existe"));
+
+        Post post = new Post();
+        post.setId(postId);
+        like.setPost(post);
 
         Optional<Like> likeExists = likeRepository.findByUserIdAndPostId(like.getUserId(), postId);
 
         if (likeExists.isEmpty()) likeRepository.save(like);
-        // else
         else likeRepository.deleteById(likeExists.get().getId());
 
     }

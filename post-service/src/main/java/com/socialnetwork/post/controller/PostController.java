@@ -7,6 +7,8 @@ import com.socialnetwork.post.service.ICommentService;
 import com.socialnetwork.post.service.ILikeService;
 import com.socialnetwork.post.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,59 +27,55 @@ public class PostController {
 
 // ------------- CRUD POST ----------------
     @GetMapping
-    public List<Post> findAll(){
-        return postService.findAll();
+    public ResponseEntity<List<Post>> findAll(){
+        return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}") // Busca todos los posts de un usuario
-    public List<Post> findPostsByUserId(@PathVariable Long userId){
-        return postService.findPostsByUserId(userId);
+    public ResponseEntity<List<Post>> findPostsByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(postService.findPostsByUserId(userId), HttpStatus.OK);
     }
 
     @GetMapping("/post/{postId}")
-    public Post findPostByPostId(@PathVariable Long postId){
-        return postService.findPostById(postId);
+    public ResponseEntity<Post> findPostByPostId(@PathVariable Long postId){
+        return new ResponseEntity<>(postService.findPostById(postId), HttpStatus.OK);
     }
 
 
     @PostMapping()
-    public Post savePost(@RequestBody Post post){
-        return postService.savePost(post);
+    public ResponseEntity<Post> savePost(@RequestBody Post post){
+        return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{postId}")
-    public void deletePost(@PathVariable Long postId){
-        postService.deletePost(postId);
+    public ResponseEntity<Post> deletePost(@PathVariable Long postId){
+        return new ResponseEntity<>(postService.deletePost(postId), HttpStatus.OK);
     }
 
 
     // ------------- LIKES ----------------
     @GetMapping("/post/{postId}/likes")
-    public List<Like> findLikesByPostId(@PathVariable Long postId){
-        return likeService.findByPostId(postId);
+    public ResponseEntity<List<Like>> findLikesByPostId(@PathVariable Long postId){
+        return new ResponseEntity<>(likeService.findByPostId(postId), HttpStatus.OK);
     }
 
     @PostMapping("/post/{postId}/like")
-    public void sendLike(@PathVariable Long postId, @RequestBody Like like){
-        Post post = new Post();
-        post.setId(postId);
-        like.setPost(post);
+    public ResponseEntity<Void> sendLike(@PathVariable Long postId, @RequestBody Like like){
         likeService.saveLike(postId, like);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     // ------------- COMMENTS ----------------
     @GetMapping("/post/{postId}/comments")
-    public List<Comment> findCommentsByPostId(@PathVariable Long postId){
-        return commentService.findByPostId(postId);
+    public ResponseEntity<List<Comment>> findCommentsByPostId(@PathVariable Long postId){
+        return new ResponseEntity<>(commentService.findByPostId(postId), HttpStatus.OK);
     }
 
     @PostMapping("/post/{postId}/comment")
-    public void sendComments(@PathVariable Long postId, @RequestBody Comment comment){
-        Post post = new Post();
-        post.setId(postId);
-        comment.setPost(post);
-        commentService.saveComment(comment);
+    public ResponseEntity<Void> sendComments(@PathVariable Long postId, @RequestBody Comment comment){
+        commentService.saveComment(postId, comment);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
