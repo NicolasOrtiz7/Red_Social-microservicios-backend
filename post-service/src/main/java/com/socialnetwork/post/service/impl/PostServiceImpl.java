@@ -6,10 +6,12 @@ import com.socialnetwork.post.feign.UserClient;
 import com.socialnetwork.post.model.User;
 import com.socialnetwork.post.repository.IPostRepository;
 import com.socialnetwork.post.service.IPostService;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -22,37 +24,45 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public List<Post> findAll() {
-
         List<Post> postsList = postRepository.findAllByOrderByIdDesc();
 
-        for (Post post : postsList){
-            User user = userClient.findUserById(post.getUserId());
-            post.setUserOwner(user);
-        }
+        // Busca el User que creó el Post, si no lo encuentra quita el Post de la lista
+        postsList = postsList.stream().filter(post -> {
+            try{
+                User user = userClient.findUserById(post.getUserId());
+                post.setUserOwner(user);
+                return true;
+            }catch (FeignException e){
+                return false;
+            }
+        }).collect(Collectors.toList());
 
         return postsList;
     }
 
     @Override
     public Post findPostById(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new NotFoundException("No existe ese Post"));
+        try {
+            User user = userClient.findUserById(post.getUserId());
+            post.setUserOwner(user);
+            return post;
 
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException("No existe ese Post"));
-        User user = userClient.findUserById(post.getUserId());
-
-        post.setUserOwner(user);
-
-        return post;
+        }catch (FeignException e){
+            throw new NotFoundException("No se encontró al usuario que hizo ese Post");
+        }
     }
 
     @Override
     public List<Post> findPostsByUserId(Long userId) {
-
         List<Post> postsList = postRepository.findByUserId(userId);
+        User user;
 
-        for (Post post : postsList){
-            User user = userClient.findUserById(post.getUserId());
-            post.setUserOwner(user);
-        }
+        try { user = userClient.findUserById(userId); }
+        catch (FeignException e) { throw new NotFoundException("No se encontró al usuario"); }
+
+        for (Post post : postsList) post.setUserOwner(user);
 
         return postsList;
     }
