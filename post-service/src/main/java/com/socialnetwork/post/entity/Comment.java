@@ -27,7 +27,7 @@ public class Comment {
 
     private Long userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 

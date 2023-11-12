@@ -10,7 +10,9 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +38,6 @@ public class PostServiceImpl implements IPostService {
                 return false;
             }
         }).collect(Collectors.toList());
-
         return postsList;
     }
 
@@ -63,7 +64,6 @@ public class PostServiceImpl implements IPostService {
         catch (FeignException e) { throw new NotFoundException("No se encontró al usuario"); }
 
         for (Post post : postsList) post.setUserOwner(user);
-
         return postsList;
     }
 
@@ -72,7 +72,7 @@ public class PostServiceImpl implements IPostService {
         return postRepository.save(post);
     }
 
-    @Override
+    @Override // Por ahora no voy a implementar la función de editar
     public Post updatePost(Post post) {
         return null;
     }
