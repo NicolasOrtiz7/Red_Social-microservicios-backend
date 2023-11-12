@@ -154,7 +154,7 @@ class PostServiceImplTest {
             assertSame(4, allPosts.size());
             verify(userClient, times(allPosts.size())).findUserById(any());
 
-            // Asigna un
+            // Asigna un userOwner a cada Post
             for (Post p : allPosts){
                 if (p.getUserId() != 2L){
                     p.setUserOwner(new User(p.getUserId()));

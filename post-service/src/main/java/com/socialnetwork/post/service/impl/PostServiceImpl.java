@@ -57,11 +57,11 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public List<Post> findPostsByUserId(Long userId) {
-        List<Post> postsList = postRepository.findByUserId(userId);
         User user;
-
         try { user = userClient.findUserById(userId); }
         catch (FeignException e) { throw new NotFoundException("No se encontró al usuario"); }
+
+        List<Post> postsList = postRepository.findByUserId(userId);
 
         for (Post post : postsList) post.setUserOwner(user);
         return postsList;
