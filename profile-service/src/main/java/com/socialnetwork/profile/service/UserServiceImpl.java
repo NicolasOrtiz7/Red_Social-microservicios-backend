@@ -12,6 +12,7 @@ import com.socialnetwork.profile.repository.IUserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements IUserService, PostClient, ChatClient {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
 
     @Override
     public List<UserDTO> findAll() {
@@ -53,7 +57,11 @@ public class UserServiceImpl implements IUserService, PostClient, ChatClient {
 
     @Override
     public User saveUser(User user) {
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        kafkaTemplate.send("segundotopic", user.getId().toString());
+
+        return savedUser;
     }
 
     @Override

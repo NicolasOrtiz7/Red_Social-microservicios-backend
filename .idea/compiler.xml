@@ -16,13 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="chat-service" target="17" />
-      <module name="config-service" target="17" />
-      <module name="eureka-service" target="17" />
       <module name="follower-service" target="17" />
-      <module name="gateway-service" target="17" />
-      <module name="post-service" target="17" />
-      <module name="profile-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

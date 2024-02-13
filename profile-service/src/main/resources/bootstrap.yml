@@ -5,3 +5,6 @@ spring:
     config:
       enable: true
       uri: http://localhost:8081
+
+  kafka:
+    bootstrap-servers: localhost:9092
